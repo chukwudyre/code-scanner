@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "code-scanner"
+version = "0.1.0"
+description = "Deterministic code-intelligence scanner for GitHub/Bitbucket/local repos"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "certifi>=2024.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+]
+
+[project.scripts]
+code-scanner = "code_scanner.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

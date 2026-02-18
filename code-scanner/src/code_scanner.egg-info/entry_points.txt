@@ -1,0 +1,2 @@
+[console_scripts]
+code-scanner = code_scanner.cli:main

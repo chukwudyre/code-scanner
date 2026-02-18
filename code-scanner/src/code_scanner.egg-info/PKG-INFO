@@ -1,0 +1,155 @@
+Metadata-Version: 2.4
+Name: code-scanner
+Version: 0.1.0
+Summary: Deterministic code-intelligence scanner for GitHub/Bitbucket/local repos
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: certifi>=2024.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
+
+# Code Scanner
+
+`code-scanner` is a deterministic, local-first repository scanner for model governance.
+
+It supports:
+- GitHub org repos
+- Bitbucket Cloud workspaces
+- Bitbucket Server/Data Center projects
+- Local git repos
+
+It stores scan history and findings in a local SQLite database.
+
+## What it does
+
+1. Discovers repos from configured providers.
+2. Syncs repos locally (or scans local paths directly).
+3. Runs deterministic detectors:
+- `ripgrep` pattern rules (high recall)
+- Python AST analysis (structured signals)
+- JS/TS structured import/call analysis
+- Java structured import/call analysis
+- Polyglot pattern analysis for R, SQL, and Scala
+4. Writes findings to local SQLite.
+5. Generates CSV/JSON governance reports.
+
+## Quick start
+
+```bash
+cd /Users/chukwudire/Documents/New\ project/code-scanner
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e '.[dev]'
+```
+
+Initialize DB:
+
+```bash
+code-scanner init --db-path data/code_scanner.db
+```
+
+Run local scan (using default local provider in example config):
+
+```bash
+code-scanner scan --config configs/config.example.json --mode full
+```
+
+Generate reports:
+
+```bash
+code-scanner report --db-path data/code_scanner.db --output-dir outputs/report-1
+```
+
+## Config
+
+The default config is `configs/config.example.json`.
+
+### Local provider (works immediately)
+
+```json
+{
+  "type": "local",
+  "name": "local-workspace",
+  "root_dir": ".",
+  "recursive": false
+}
+```
+
+### GitHub provider
+
+```json
+{
+  "type": "github",
+  "name": "github-enterprise",
+  "base_url": "https://api.github.com",
+  "org": "your-org",
+  "token_env": "GITHUB_TOKEN",
+  "use_token_for_clone": true
+}
+```
+
+### Bitbucket Cloud provider
+
+```json
+{
+  "type": "bitbucket_cloud",
+  "name": "bitbucket-cloud",
+  "workspace": "your-workspace",
+  "token_env": "BITBUCKET_TOKEN",
+  "use_token_for_clone": true
+}
+```
+
+### Bitbucket Server provider
+
+```json
+{
+  "type": "bitbucket_server",
+  "name": "bitbucket-server",
+  "base_url": "https://bitbucket.company.com",
+  "project_key": "RISK",
+  "token_env": "BITBUCKET_TOKEN",
+  "use_token_for_clone": true
+}
+```
+
+## Incremental scans
+
+After an initial full scan, run incremental mode:
+
+```bash
+code-scanner scan --config configs/config.example.json --mode incremental
+```
+
+Incremental mode skips repos when commit SHA has not changed.
+
+## Outputs
+
+The scanner writes data to SQLite (`data/code_scanner.db`) and reports include:
+- `run_summary.json`
+- `findings_by_repo.csv`
+- `findings_by_signal.csv`
+- `top_findings.csv`
+
+## Language coverage (v1.1)
+
+- Structured scanners:
+  - Python (`.py`) AST
+  - Jupyter notebooks (`.ipynb`) code-cell AST
+  - JavaScript/TypeScript (`.js/.jsx/.ts/.tsx/.mjs/.cjs`)
+  - Java/Kotlin/Scala (`.java/.kt/.scala`) structured heuristics
+- Pattern-based detectors:
+  - R (`.r`)
+  - SQL (`.sql`)
+  - Scala (`.scala`)
+  - Plus any language matched by `configs/default_rules.json` through `ripgrep`
+
+## Notes
+
+- `ripgrep` is used when installed; otherwise scanner falls back to Python regex scanning.
+- For private repos, authenticated clone requires `use_token_for_clone=true` and working token permissions.
+- This is deterministic scanning; no LLM is required.
+- For notebook-heavy repos, keep `scan.max_file_size_bytes` high (for example `15000000`) so `.ipynb` files are not skipped.
+- If you hit TLS certificate errors on macOS Python, install/refresh trust roots and optionally set:
+  - `SSL_CERT_FILE=$(python -c "import certifi; print(certifi.where())")`
+  - or `CODE_SCANNER_CA_BUNDLE=/path/to/company-ca-bundle.pem`

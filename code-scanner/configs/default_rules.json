@@ -1,0 +1,162 @@
+[
+  {
+    "signal_code": "ML_OPENAI_USAGE",
+    "category": "llm",
+    "severity": "high",
+    "description": "OpenAI SDK usage",
+    "pattern": "\\b(openai|OpenAI)\\b",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_TRANSFORMERS_USAGE",
+    "category": "llm",
+    "severity": "high",
+    "description": "Hugging Face transformers usage",
+    "pattern": "\\btransformers\\b",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_LANGCHAIN_USAGE",
+    "category": "llm",
+    "severity": "medium",
+    "description": "LangChain usage",
+    "pattern": "\\blangchain\\b",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_SKLEARN_USAGE",
+    "category": "classical_ml",
+    "severity": "medium",
+    "description": "scikit-learn usage",
+    "pattern": "\\bsklearn\\b",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_TENSORFLOW_USAGE",
+    "category": "deep_learning",
+    "severity": "high",
+    "description": "TensorFlow or Keras usage",
+    "pattern": "\\b(tensorflow|keras)\\b",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_TORCH_USAGE",
+    "category": "deep_learning",
+    "severity": "high",
+    "description": "PyTorch usage",
+    "pattern": "\\b(torch|pytorch)\\b",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_XGBOOST_USAGE",
+    "category": "classical_ml",
+    "severity": "medium",
+    "description": "XGBoost usage",
+    "pattern": "\\bxgboost\\b",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_LIGHTGBM_USAGE",
+    "category": "classical_ml",
+    "severity": "medium",
+    "description": "LightGBM usage",
+    "pattern": "\\blightgbm\\b",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_CATBOOST_USAGE",
+    "category": "classical_ml",
+    "severity": "medium",
+    "description": "CatBoost usage",
+    "pattern": "\\bcatboost\\b",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_MODEL_SERIALIZATION",
+    "category": "model_lifecycle",
+    "severity": "high",
+    "description": "Model serialization or loading",
+    "pattern": "(joblib|pickle)\\.(dump|load)\\s*\\(|torch\\.(save|load)\\s*\\(|model\\.save\\s*\\(",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_TRAINING_CALL",
+    "category": "model_lifecycle",
+    "severity": "high",
+    "description": "Training call pattern",
+    "pattern": "\\.fit\\s*\\(",
+    "ignore_case": false
+  },
+  {
+    "signal_code": "ML_INFERENCE_CALL",
+    "category": "model_lifecycle",
+    "severity": "medium",
+    "description": "Inference call pattern",
+    "pattern": "\\.(predict|infer|generate)\\s*\\(",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_MLFLOW_USAGE",
+    "category": "mlops",
+    "severity": "medium",
+    "description": "MLflow usage",
+    "pattern": "\\bmlflow\\b",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_MODEL_CONFIG_KEYS",
+    "category": "config",
+    "severity": "low",
+    "description": "Model-related config keys",
+    "pattern": "(model_name|model_id|embedding_model|llm_provider)\\s*[:=]",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_OPENAI_ENDPOINT",
+    "category": "llm",
+    "severity": "high",
+    "description": "OpenAI API endpoint usage",
+    "pattern": "https://api\\.openai\\.com/v1/(chat/completions|responses|embeddings)",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_R_STATS_LIB_USAGE",
+    "category": "statistics",
+    "severity": "medium",
+    "description": "R modeling library usage",
+    "pattern": "\\b(library|require)\\((caret|randomForest|glmnet|xgboost|tidymodels|e1071)\\)",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_SPARK_ML_USAGE",
+    "category": "classical_ml",
+    "severity": "medium",
+    "description": "Spark ML usage across Scala/Java/Python",
+    "pattern": "\\b(org\\.apache\\.spark\\.ml|pyspark\\.ml|spark\\.ml)\\b",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_SQL_MODEL_OPERATIONS",
+    "category": "analytics_ml",
+    "severity": "medium",
+    "description": "SQL model training or prediction operations",
+    "pattern": "\\b(CREATE\\s+MODEL|ML\\.PREDICT|ML\\.TRAINING_INFO|PREDICT\\()\\b",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_FORECASTING_USAGE",
+    "category": "forecasting",
+    "severity": "medium",
+    "description": "Forecasting libraries and classes",
+    "pattern": "\\b(prophet|neuralprophet|statsmodels\\.tsa|ARIMA|SARIMAX)\\b",
+    "ignore_case": true
+  },
+  {
+    "signal_code": "ML_OPTIMIZATION_USAGE",
+    "category": "optimization",
+    "severity": "medium",
+    "description": "Optimization solver usage",
+    "pattern": "\\b(pulp|pyomo|gurobi|ortools|cvxpy|scipy\\.optimize)\\b",
+    "ignore_case": true
+  }
+]
