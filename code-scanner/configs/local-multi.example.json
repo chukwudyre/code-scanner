@@ -1,0 +1,22 @@
+{
+  "db_path": "data/code_scanner.db",
+  "repo_cache_dir": "repo_cache",
+  "rules_path": "configs/default_rules.json",
+  "scan": {
+    "include_repo_patterns": [],
+    "exclude_repo_patterns": [
+      "archive",
+      "deprecated"
+    ],
+    "max_file_size_bytes": 15000000,
+    "max_files_per_repo": 40000
+  },
+  "providers": [
+    {
+      "type": "local",
+      "name": "local-multi",
+      "root_dir": "..",
+      "recursive": true
+    }
+  ]
+}

@@ -50,6 +50,66 @@ Generate reports:
 code-scanner report --db-path data/code_scanner.db --output-dir outputs/report-1
 ```
 
+## Run Playbooks
+
+### 1) Scan current local repo (single repo)
+
+Config:
+- Use `configs/config.example.json` as-is (`root_dir: "."`, `recursive: false`)
+
+Run:
+
+```bash
+code-scanner init --db-path data/code_scanner.db
+code-scanner scan --config configs/config.example.json --mode full
+code-scanner report --db-path data/code_scanner.db --output-dir outputs/report-local-single
+```
+
+### 2) Scan many local repos under one parent folder
+
+Use `configs/local-multi.example.json` and set `root_dir` to the parent path that contains repo folders.
+
+Run:
+
+```bash
+code-scanner scan --config configs/local-multi.example.json --mode full
+code-scanner report --db-path data/code_scanner.db --output-dir outputs/report-local-multi
+```
+
+### 3) Scan one public GitHub repo (single target)
+
+Use `configs/github-single-public.example.json` and set:
+- `org` to the repo owner
+- CLI `--repo-regex` to `^owner/repo$`
+
+Example for `https://github.com/chukwudyre/code-scanner`:
+
+```bash
+code-scanner scan \
+  --config configs/github-single-public.example.json \
+  --mode full \
+  --repo-regex '^chukwudyre/code-scanner$' \
+  --limit 1
+
+code-scanner report --db-path data/code_scanner.db --output-dir outputs/report-github-single
+```
+
+### 4) Incremental scans (after baseline full scan)
+
+```bash
+code-scanner scan --config configs/config.example.json --mode incremental
+```
+
+### 5) Restricted environments (no app launcher / no pip install)
+
+Run the module directly with approved Python:
+
+```bash
+PYTHONPATH=src python -m code_scanner.cli init --db-path data/code_scanner.db
+PYTHONPATH=src python -m code_scanner.cli scan --config configs/config.example.json --mode full
+PYTHONPATH=src python -m code_scanner.cli report --db-path data/code_scanner.db --output-dir outputs/report-1
+```
+
 ## Config
 
 The default config is `configs/config.example.json`.
