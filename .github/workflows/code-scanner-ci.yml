@@ -1,0 +1,35 @@
+name: code-scanner-ci
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "code-scanner/**"
+      - ".github/workflows/code-scanner-ci.yml"
+  pull_request:
+    paths:
+      - "code-scanner/**"
+      - ".github/workflows/code-scanner-ci.yml"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: code-scanner
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Run Tests
+        run: pytest -q

@@ -1,7 +1,14 @@
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 .venv/
+.idea/
+.pytest_cache/
 .env
+*.egg-info/
+build/
+dist/
 repo_cache/
 outputs/
 data/
