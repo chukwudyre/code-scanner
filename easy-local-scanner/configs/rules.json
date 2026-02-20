@@ -1,0 +1,44 @@
+[
+  {
+    "code": "OPENAI_USAGE",
+    "description": "OpenAI package or client usage",
+    "severity": "high",
+    "pattern": "\\bopenai\\b",
+    "ignore_case": true
+  },
+  {
+    "code": "TRANSFORMERS_USAGE",
+    "description": "Hugging Face transformers usage",
+    "severity": "high",
+    "pattern": "\\btransformers\\b",
+    "ignore_case": true
+  },
+  {
+    "code": "SKLEARN_USAGE",
+    "description": "scikit-learn usage",
+    "severity": "medium",
+    "pattern": "\\bsklearn\\b",
+    "ignore_case": true
+  },
+  {
+    "code": "TRAIN_CALL",
+    "description": "Model fit or train call",
+    "severity": "high",
+    "pattern": "\\b(fit|train)\\s*\\(",
+    "ignore_case": true
+  },
+  {
+    "code": "INFER_CALL",
+    "description": "Inference call",
+    "severity": "medium",
+    "pattern": "\\b(predict|infer|generate)\\s*\\(",
+    "ignore_case": true
+  },
+  {
+    "code": "MODEL_IO",
+    "description": "Model serialization or loading",
+    "severity": "medium",
+    "pattern": "\\b(joblib\\.(dump|load)|pickle\\.(dump|load)|torch\\.(save|load))\\b",
+    "ignore_case": true
+  }
+]
